@@ -1,0 +1,380 @@
+{
+  "name": "AI Ecommerce · News Aggregation Workflow · Public Template",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Daily 8 AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        208
+      ],
+      "notes": "⏰ [Schedule Trigger] Runs the entire workflow automatically at 8:00 AM each day.\nTo change the schedule, select this node and update triggerAtHour (0–23). For example, set it to 9 for 9:00 AM."
+    },
+    {
+      "parameters": {
+        "url": "https://36kr.com/feed",
+        "options": {}
+      },
+      "id": "node-36kr-rss",
+      "name": "36Kr Global RSS",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        16,
+        -48
+      ],
+      "notes": "📰 [RSS Subscription] Retrieves the latest articles from the 36Kr Global channel.\nNo configuration is required. To use another RSS source, update the url field."
+    },
+    {
+      "parameters": {
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCKHhA5hN2UohhFDfNXB_cvQ",
+        "options": {}
+      },
+      "id": "node-youtube-rss",
+      "name": "YouTube-Jungle Scout",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        112,
+        480
+      ],
+      "notes": "▶️ [YouTube RSS] Subscribes to the latest videos from the Jungle Scout channel.\nNo API key is required. To switch channels, replace the value after channel_id= with the target channel ID. Find the channel ID in the final segment of the YouTube channel URL."
+    },
+    {
+      "parameters": {
+        "url": "https://www.reddit.com/r/FulfillmentByAmazon/.rss",
+        "options": {}
+      },
+      "id": "node-reddit-rss",
+      "name": "Reddit FBA Community",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        896,
+        672
+      ],
+      "notes": "🤖 [Reddit RSS] Retrieves popular posts from the Reddit FBA seller community.\nNo account is required. To use another community, replace r/FulfillmentByAmazon with the desired subreddit."
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "node-merge",
+      "name": "Merge All News",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        304
+      ],
+      "notes": "🔀 [Merge Node] Combines news from multiple sources into one data stream.\nNo configuration is required. If you add a source, connect its node here."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Public news aggregation workflow\n\n// Purpose: combine articles from multiple sources into one text block for AI analysis.\n\nconst items = $input.all();\nlet combinedText = \"\";\n\nfor (const item of items) {\n    const i = item.json;\n    const title = i.title || i.snippet?.title || \"Untitled\";\n    const link = i.link || (i.id?.videoId ? `https://youtube.com/watch?v=${i.id.videoId}` : \"No link\");\n    const summary = i.summary || i.snippet?.description || i.content || i.selftext || \"\";\n\n    if (title !== \"Untitled\") {\n        combinedText += `Title: ${title}\\nLink: ${link}\\nSummary: ${summary}\\n\\n----------------\\n\\n`;\n    }\n}\n\nreturn [{\n    json: {\n        prompt: combinedText\n    }\n}];"
+      },
+      "id": "node-code-format",
+      "name": "Format Article Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        304
+      ],
+      "notes": "🛠️ [Code Node] Formats and combines multiple articles into AI-ready text.\nNo changes are required."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer [ENTER_YOUR_OPENROUTER_API_KEY]"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://n8n.io"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"openai/gpt-4o-mini\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a cross-border ecommerce intelligence analyst. Your audience is ecommerce operators, DTC brand teams, and investors. Focus on measurable AI ROI, net-profit impact, product-selection logic, and supply-chain capacity. Avoid generic explainers; provide concrete, decision-useful analysis.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{ JSON.stringify($json.prompt) }}\n    }\n  ],\n  \"max_tokens\": 2000\n}",
+        "options": {}
+      },
+      "id": "node-openrouter-ai",
+      "name": "Analyze and Filter Intelligence",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        896,
+        304
+      ],
+      "notes": "🤖 [AI Analysis Node — Configuration Required]\n\n1. Create an OpenRouter account\n   → Go to https://openrouter.ai and create an account.\n   → Select your profile picture → API Keys → Create Key.\n   → Copy the generated key (for example, sk-or-v1-xxxx).\n\n2. Add your API key\n   → Replace the placeholder in the Authorization value above with your own key.\n   → Keep the format: Bearer sk-or-v1-your-key\n\n3. Optional: adjust the AI prompt\n   → system content defines the AI role and can be adjusted.\n   → model can be changed to another model, such as anthropic/claude-3-haiku.\n\n⚠️ Security: an API key is equivalent to an account password. Never share a workflow containing a real key."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract analysis text from the AI response.\nconst response = $input.first().json;\nconst content = response.choices[0].message.content;\nreturn [{ json: { analysis: content } }];"
+      },
+      "id": "node-code-extract",
+      "name": "Extract AI Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        304
+      ],
+      "notes": "📤 [Extract Result] Extracts analysis text from the AI response.\nNo changes are required."
+    },
+    {
+      "parameters": {
+        "chatId": "[ENTER_YOUR_TELEGRAM_CHAT_ID]",
+        "text": "=🌅 AI Ecommerce — Daily Intelligence Brief\n\n{{ $json.analysis }}\n\n---\n⏰ Generated: {{ new Date().toLocaleString(\"en-US\", {timeZone: \"Asia/Shanghai\"}) }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "node-telegram-send",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1328,
+        304
+      ],
+      "notes": "📱 [Telegram Send Node — Two Items Required]\n\n━━━━━━━━━━━━━━━━━━\n1. Create a bot and obtain its token\n━━━━━━━━━━━━━━━━━━\n① Open Telegram and search for @BotFather.\n② Send /newbot and follow the prompts.\n③ BotFather will return a token after the bot is created.\n   Format: 123456789:ABCdefGHI-xxxxxxxxxxxx\n④ Return to n8n → select this node → Credentials.\n   → Create a Telegram API credential.\n   → Paste and save the token.\n\n━━━━━━━━━━━━━━━━━━\n2. Obtain the Chat ID\n━━━━━━━━━━━━━━━━━━\n① Add the bot to the destination group, or send it a direct message.\n② Open this URL in a browser:\n   https://api.telegram.org/bot[YOUR_TOKEN]/getUpdates\n③ In the returned JSON, find \"chat\":{\"id\": ...}.\n   Direct-message IDs are positive; group IDs are negative.\n④ Enter that value in the chatId field above.\n\n⚠️ The bot must receive at least one message before its Chat ID can be retrieved."
+    },
+    {
+      "parameters": {
+        "url": "https://www.huxiu.com/rss/0.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        112,
+        128
+      ],
+      "id": "node-huxiu-rss",
+      "name": "Huxiu RSS Fetch",
+      "notes": "📰 [Huxiu RSS] Retrieves the latest technology and business news from Huxiu.\nNo configuration is required. Huxiu does not provide a standard RSS node, so this workflow uses an HTTP request to retrieve XML content."
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/youtube/v3/search?part=snippet&q=cross+border+ecommerce+AI&type=video&order=date&maxResults=10&key=[ENTER_YOUR_YOUTUBE_API_KEY]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        304
+      ],
+      "id": "node-youtube-search",
+      "name": "YouTube Cross-Border Ecommerce Search",
+      "notes": "🔍 [YouTube Search — Configuration Required]\n\nHow to obtain a YouTube API key:\n① Go to https://console.cloud.google.com.\n② Sign in to your Google account and create a project.\n③ In the left menu, select APIs & Services → Enable APIs and Services.\n   Search for YouTube Data API v3 and enable it.\n④ In the left menu, select Credentials → Create Credentials → API key.\n⑤ Copy the API key and replace the placeholder after key= in the URL.\n\nTo change search terms:\nReplace the value after q= in the URL. Join multiple terms with +, for example: amazon+FBA+2024.\n\n⚠️ Free quota: 10,000 queries per day, which is sufficient for typical use."
+    },
+    {
+      "parameters": {
+        "url": "https://www.reddit.com/r/FulfillmentByAmazon/.rss",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        624
+      ],
+      "id": "node-reddit-http",
+      "name": "Reddit HTTP Fallback",
+      "notes": "🔄 [Reddit HTTP Fallback] Retrieves the Reddit RSS feed through HTTP with a browser User-Agent to reduce blocking.\nThis is an alternative to the Reddit FBA node; use one or the other. No changes are required."
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 8 AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "36Kr Global RSS",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YouTube-Jungle Scout",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Huxiu RSS Fetch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "YouTube Cross-Border Ecommerce Search",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Reddit HTTP Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "36Kr Global RSS": {
+      "main": [
+        [
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge All News": {
+      "main": [
+        [
+          {
+            "node": "Format Article Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Article Data": {
+      "main": [
+        [
+          {
+            "node": "Analyze and Filter Intelligence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze and Filter Intelligence": {
+      "main": [
+        [
+          {
+            "node": "Extract AI Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract AI Analysis": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Huxiu RSS Fetch": {
+      "main": [
+        [
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "YouTube-Jungle Scout": {
+      "main": [
+        [
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "YouTube Cross-Border Ecommerce Search": {
+      "main": [
+        [
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Reddit HTTP Fallback": {
+      "main": [
+        [
+          {
+            "node": "Merge All News",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "description": "News Aggregation Workflow · Public Template\n\n[Template Overview]\nThis workflow retrieves cross-border ecommerce news each day from sources such as 36Kr, Huxiu, YouTube, and Reddit, analyzes it with AI, and delivers it to Telegram.\n\n[Required Configuration]\n1. OpenRouter API key for the AI analysis node\n2. YouTube Data API key for the YouTube search node\n3. Telegram bot token and Chat ID for the delivery node\n\nEvery node includes setup notes."
+  },
+  "tags": [
+    {
+      "name": "AI Ecommerce"
+    },
+    {
+      "name": "Cross-Border Ecommerce"
+    },
+    {
+      "name": "News Aggregation"
+    },
+    {
+      "name": "Public Template"
+    }
+  ]
+}
