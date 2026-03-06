@@ -1,11 +1,11 @@
 <div align="center">
 
-# 🚀 Awesome AI Ecommerce | AI电商新基建
+# 🔧 AI Ecommerce Automation Toolkit
 
-**The Ultimate Guide to AI Automation for Cross-border Ecommerce.**
-**专注于 n8n 工作流、OpenClaw 爬虫配置、跨境选品与流量变现的实战 S.O.P**
+**Cross-border Ecommerce AI Automation — Practical Notes & Workflow Templates**
+**跨境电商 AI 自动化实践笔记：n8n 工作流 / OpenClaw 配置 / 选品数据处理**
 
-[入群交流](抖音主页) | [贡献内容](CONTRIBUTING.md) | [我的抖音](抖音号：611083659)
+[查看文档](#-学习资源与文档) | [贡献内容](CONTRIBUTING.md) | [问题反馈](issues)
 
 ---
 
@@ -14,64 +14,100 @@
 ## 📖 目录 (Table of Contents)
 
 - [🤖 自动化核心工具 (Core Tools)](#-自动化核心工具)
-- [⚡️ 强哥独家工作流 (My Workflows)](#-强哥独家工作流)
+- [⚡️ 实战工作流模板 (Workflow Templates)](#-实战工作流模板)
 - [🦞 OpenClaw 实战配置](#-openclaw-实战配置)
 - [🧠 推荐 AI 模型与 Agent](#-推荐-ai-模型与-agent)
 - [📚 学习资源与文档](#-学习资源与文档)
-- [🤝 加入社区](#-加入社区)
+- [💬 交流与反馈](#-交流与反馈)
 
 ---
 
 ## 🤖 自动化核心工具
 
-| 工具名称 | 类型 | 推荐理由 | 链接 |
+> 以下工具均经过实际业务场景验证，适用于跨境电商数据处理与流程自动化。
+
+| 工具名称 | 类型 | 说明 | 链接 |
 | :--- | :--- | :--- | :--- |
-| **n8n** | 流程自动化 | 最好用的开源工作流工具，支持私有化部署。 | [官网](https://n8n.io/) |
-| **OpenClaw** | 爬虫 Agent | "龙虾"，专门用于抓取电商数据和素材。 | [GitHub](https://github.com/openclaw) |
-| **Firecrawl** | 网页解析 | 把任意网页转成 Markdown 喂给 AI，极强。 | [官网](https://firecrawl.dev/) |
-| **Brave Search** | 搜索 API | AI 联网搜索的最佳搭档。 | [官网](https://brave.com/search/api/) |
+| **n8n** | 流程自动化 | 开源工作流引擎，支持私有化部署，节点生态丰富。 | [官网](https://n8n.io/) |
+| **OpenClaw** | 爬虫 Agent | 适用于电商数据与素材抓取的 AI Agent 框架。 | [GitHub](https://github.com/openclaw) |
+| **Firecrawl** | 网页解析 | 将任意网页转换为结构化 Markdown，适合喂给 LLM。 | [官网](https://firecrawl.dev/) |
+| **Brave Search** | 搜索 API | 支持 AI 联网检索，延迟低，适合 Agent 集成。 | [官网](https://brave.com/search/api/) |
 
-## ⚡️ 强哥独家工作流
+---
 
-> 这些是我在实战中跑通的 n8n JSON 模板，下载导入即可使用。
+## ⚡️ 实战工作流模板
 
-### 1. 跨境资讯自动采集流
-- **功能：** 每天自动抓取 36Kr、虎嗅、Reddit 跨境板块 -> DeepSeek 总结 -> 推送到飞书/微信。
-- **依赖节点：** HTTP Request, OpenAI (DeepSeek), Feishu/Wecom
-- **下载链接：** [点击下载 JSON (示例链接)](https://你的网盘或文件链接) 
-- **教程视频：** [抖音视频链接](https://v.douyin.com/xxxx)
+> 以下是在实际场景中验证可用的 n8n JSON 模板，导入即可使用。
+> 每个模板附有依赖说明，请根据自身环境调整配置参数。
 
-### 2. 亚马逊竞品监控流
-- **功能：** 监控竞品价格变动 -> 触发降价提醒。
-- **状态：** 🚧 迭代中，即将发布...
+### 1. 跨境行业资讯自动聚合流
+
+- **适用场景：** 自动采集多源行业资讯，AI 摘要后推送至团队协作工具
+- **数据来源：** 36Kr、虎嗅、Reddit 相关板块（可自定义扩展）
+- **处理节点：** HTTP Request → DeepSeek/OpenAI 摘要 → 飞书 / 企业微信推送
+- **依赖节点：** `HTTP Request` `OpenAI (兼容 DeepSeek)` `Feishu/Wecom`
+- **模板文件：** [下载 JSON](https://你的文件链接)
+
+---
+
+### 2. 竞品价格监控流
+
+- **适用场景：** 定时监控指定 ASIN 或关键词的竞品价格变动，触发提醒
+- **状态：** 🚧 持续迭代中，近期发布
+
+---
 
 ## 🦞 OpenClaw 实战配置
 
-这里分享我的 `docker-compose.yml` 和 `config.json` 避坑配置。
+> 记录本地部署过程中遇到的配置问题与解决方案，减少重复踩坑。
 
-- [OpenClaw 本地部署保姆级文档](https://飞书文档链接)
-- **常见报错解决：
-  - `Error 403`: 加上指纹浏览器或者使用住宅代理。
-  - `Ollama 连接失败`: 检查 Host 设置为 `host.docker.internal`。
+### 部署参考
 
-## 🤝 加入社区
+- [本地部署完整文档（飞书）](https://飞书文档链接)
+- 推荐使用 `docker-compose` 方式部署，便于环境隔离与版本管理
 
-一个人走得快，一群人走得远。
-欢迎加入我们的 【AI 电商实战资源池】。
+### 常见报错处理
 
-我们聊什么？
-- ✅ n8n 高阶玩法 & 报错互助
-- ✅ 跨境电商最新流量红利
-- ✅ 稀缺 AI 工具内测分享
+| 报错信息 | 原因 | 解决方案 |
+| :--- | :--- | :--- |
+| `Error 403` | 目标站点反爬 | 配置住宅代理或指纹浏览器 |
+| `Ollama 连接失败` | Docker 网络隔离问题 | 将 Host 改为 `host.docker.internal` |
 
-🚫 不聊什么？
-- ❌ 割韭菜卖课
-- ❌ 无脑小白问题 (先看文档)
+---
 
-> 获取入群方式：请移步我的抖音主页 [@强哥的世界] 查看简介或置顶视频。
+## 🧠 推荐 AI 模型与 Agent
+
+> 根据不同任务场景的实测对比，持续更新。
+
+| 模型 / 工具 | 适用场景 | 备注 |
+| :--- | :--- | :--- |
+| **DeepSeek-V3** | 文本摘要、内容生成 | 性价比高，中文理解强 |
+| **Claude 3.5 Sonnet** | 长文档处理、复杂推理 | 上下文窗口大 |
+| **Midjourney / Flux** | 电商主图生成 | 需结合提示词模板使用 |
+
+---
+
+## 📚 学习资源与文档
+
+- [n8n 官方文档](https://docs.n8n.io/)
+- [OpenClaw Wiki](https://github.com/openclaw/wiki)
+- [Firecrawl API 文档](https://docs.firecrawl.dev/)
+- [Brave Search API 文档](https://api.search.brave.com/app/documentation)
+
+---
+
+## 💬 交流与反馈
+
+如果你在使用过程中遇到问题，或有改进建议，欢迎通过以下方式交流：
+
+- 提交 [GitHub Issue](issues) 描述具体问题
+- 如需进一步讨论，可在 Issue 中说明，视情况建立专项讨论
+
+> 本仓库聚焦工具本身的技术讨论，不涉及课程推广或商业合作。
 
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/strongqiang100">StrongQiang</a></sub>
+  <sub>Maintained by <a href="https://github.com/strongqiang100">strongqiang100</a> 
+  · Focus on practical AI automation for e-commerce</sub>
 </div>
