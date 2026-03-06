@@ -46,7 +46,7 @@
 - **数据来源：** 36Kr、虎嗅、Reddit 相关板块（可自定义扩展）
 - **处理节点：** HTTP Request → DeepSeek/OpenAI 摘要 → 飞书 / 企业微信推送
 - **依赖节点：** `HTTP Request` `OpenAI (兼容 DeepSeek)` `Feishu/Wecom`
-- **模板文件：** [下载 JSON](https://github.com/strongqiang100/awesome-ai-ecommerce/blob/main/202603061249strongqiang.json))
+- **模板文件：** [下载链接 JSON](https://github.com/strongqiang100/awesome-ai-ecommerce/blob/main/202603061249strongqiang.json))
 
 ---
 
