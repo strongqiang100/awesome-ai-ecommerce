@@ -29,7 +29,7 @@
 | **n8n** | 流程自动化 | 最好用的开源工作流工具，支持私有化部署。 | [官网](https://n8n.io/) |
 | **OpenClaw** | 爬虫 Agent | "龙虾"，专门用于抓取电商数据和素材。 | [GitHub](https://github.com/openclaw) |
 | **Firecrawl** | 网页解析 | 把任意网页转成 Markdown 喂给 AI，极强。 | [官网](https://firecrawl.dev/) |
-| **Brave Search** | 搜索 API | AI 联网搜索的最佳搭档，免费额度大。 | [官网](https://brave.com/search/api/) |
+| **Brave Search** | 搜索 API | AI 联网搜索的最佳搭档。 | [官网](https://brave.com/search/api/) |
 
 ## ⚡️ 强哥独家工作流
 
