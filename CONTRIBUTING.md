@@ -2,7 +2,7 @@
 
 [中文入口](README.md) · [English home](README.en.md)
 
-欢迎贡献能让读者少走弯路的事实、方法和失败边界。/ Contribute facts, methods, and failure boundaries that help readers make better decisions.
+欢迎补充做过的方案、遇到的问题，以及工具在哪些条件下不适用。/ Contributions can describe approaches you have tried, problems you encountered, and conditions where a tool did not fit.
 
 ## 提交要求 / Submission requirements
 

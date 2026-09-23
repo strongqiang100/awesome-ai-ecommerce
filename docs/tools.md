@@ -2,11 +2,9 @@
 
 [中文入口](../README.md) · [English home](../README.en.md) · [来源 / Sources](sources.md)
 
-> 选择工具，就是选择它擅长的边界。Choosing a tool means understanding the boundaries within which it works well.
+下面按用途整理工具，链接指向官方资料。**DOC** 表示查过文档，不代表已经在店铺里用过；表里的组合建议标为 **DESIGN**。选好工具后，还需确认自己的账号、地区和版本是否支持所需功能，以及费用、配额和许可是否合适。
 
-所有条目以官方资料为入口；**DOC** 表示能力在文档中可确认，并不表示本仓库完成生产验证。组合建议属于 **DESIGN**。账号、版本、地区、价格、配额和许可在采用前重新检查。
-
-Entries link to official material. **DOC** confirms documented capability, not production testing by this repository. Stack recommendations are **DESIGN**. Recheck accounts, versions, regions, prices, quotas, and licenses before adoption.
+Tools are grouped by task and linked to official material. **DOC** means the documentation was checked, not that the tool was tested in a store. Proposed combinations are **DESIGN**. Before adopting one, check whether your account, region, and version support the features you need, along with fees, quotas, and licensing.
 
 ## 01 · 编排与 Agent / Orchestration and agents
 
@@ -38,9 +36,9 @@ Entries link to official material. **DOC** confirms documented capability, not p
 | [FFmpeg](https://ffmpeg.org/documentation.html) | 拼接、转码、音视频处理 / Assembly, transcoding, media processing | 构建选项与编码器许可需核对 / Check build and codec licensing | DOC |
 | [Qdrant](https://qdrant.tech/documentation/) | 向量检索 / Vector retrieval | 权限、版本与租户过滤由系统设计保证 / Design authorization and tenant/version filtering | DOC |
 
-模型选型不建立永久排行榜。使用同一组商品、问题和约束，比较事实错误、结构化输出、延迟、可用率与审核时间。发布前记录实际模型标识与版本。
+选模型时，可以拿同一批商品资料和问题分别试一下，记录事实错误、格式错误、延迟和人工修改时间。演示里最好的一次结果未必有代表性，多跑几次再比较。实际采用的模型名称与版本记在配置里，后续换版本时用原样本复测。
 
-Avoid a permanent model leaderboard. Compare factual errors, structured output, latency, availability, and review time on the same tasks. Record the actual model and version before deployment.
+Try models on the same product information and questions. Record factual and formatting errors, delay, and editing time. Repeat the trial rather than choosing from a single best output. Save the adopted model and version in configuration, and reuse the samples when upgrading.
 
 ## 04 · 平台、服务与分析 / Platforms, service, and analytics
 
@@ -56,7 +54,7 @@ Avoid a permanent model leaderboard. Compare factual errors, structured output, 
 | [dbt](https://docs.getdbt.com/docs/introduction) | 数据转换与指标建模 / Transformation and analytics models | 口径由业务定义，工具不会自动纠错 / Business definitions remain necessary | DOC |
 | [Metabase](https://www.metabase.com/docs/latest/) | 经营查询与仪表盘 / Queries and dashboards | 数据权限、刷新与查询成本 / Data access, refresh, query cost | DOC |
 
-## 05 · 三种起步组合 / Three starting configurations
+## 05 · 可以从哪些组合开始 / Starting combinations
 
 | 场景 / Context | 最小组合 / Minimal stack | 暂不增加 / Defer until justified |
 |---|---|---|
@@ -64,7 +62,7 @@ Avoid a permanent model leaderboard. Compare factual errors, structured output, 
 | 多店铺运营 / Multiple stores | 平台 API＋数据库＋队列＋明确租户隔离 / APIs, database, queue, tenant isolation | 跨店铺自动共享敏感数据 / Automatic sensitive-data sharing |
 | 内容生产团队 / Content team | 事实库＋资产库＋生成与剪辑＋版本评估 / Facts, assets, generation/editing, evaluation | 未验证的无人发布 / Unvalidated unattended publishing |
 
-## 06 · 待补充平台 / Platforms needing further verification
+## 06 · 其他平台 / Other platforms
 
 WooCommerce、eBay、Shopee、Lazada、Walmart、Mercado Libre、Temu、SHEIN 等平台可以沿用数据契约与审批思路，但本版本没有完成逐平台接口、账号和地区验证。未为它们编造 endpoint 或连接器。后续贡献应先补官方来源、实际权限和最小读请求，再提交可复现适配。
 

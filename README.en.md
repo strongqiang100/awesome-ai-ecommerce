@@ -2,9 +2,7 @@
 
 # Awesome AI Ecommerce
 
-### From one repeatable action to a dependable operating system
-
-**Give every tool a purpose, every fact a source, and every action a measurable result.**
+### AI tools and automation for ecommerce
 
 [简体中文](README.md) · English
 
@@ -14,9 +12,9 @@
 
 ---
 
-A bilingual starting point for cross-border sellers, independent stores, brand teams, and developers. Covers product research, product truth, listings, images, video, creators, advertising, support, inventory, fulfillment, and analytics, together with data contracts, agents, reliability, evaluation, and open research boundaries.
+Which ecommerce tasks are worth automating, which tools fit, and how do they connect to the work you already do? This repository collects approaches and references to help answer those questions.
 
-> Let systems carry repetition. Let evidence guide judgment.
+Chapters cover product research, listings, images and video, creators, advertising, support, and fulfillment. Each describes the data needed, an approach to try, and the parts that still need human attention. Use the table below to find a task. If you are building integrations, start with data formats, APIs, and error handling.
 
 ## Find your path
 
@@ -28,7 +26,7 @@ A bilingual starting point for cross-border sellers, independent stores, brand t
 | How do I organize acquisition? | [Chapters 10–11](docs/en/handbook.md#c10) | Partnerships, diagnosis, and experiments |
 | How do I improve service and fulfillment? | [Chapters 12–14](docs/en/handbook.md#c12) | Retrieval, orders, stock, and retention |
 | How do I build dependable integrations? | [Chapters 15–18](docs/en/handbook.md#c15) | APIs, agents, evaluation, and cost |
-| Is there a comparable workflow? | [24 recipes](docs/en/handbook.md#c20) | Inputs, candidate tools, and acceptance |
+| Is there a comparable workflow? | [24 workflow ideas](docs/en/handbook.md#c20) | Inputs, candidate tools, and acceptance |
 | What remains unproven? | [Research boundaries](docs/en/handbook.md#c19) | Hypotheses, validation, and stopping rules |
 
 ## Repository map
@@ -63,7 +61,7 @@ A bilingual starting point for cross-border sellers, independent stores, brand t
 
 Inclusion is not paid endorsement or a claim that every tool was tested. Consult current official terms for prices, quotas, versions, regions, permissions, and licensing. [Evidence and sources](docs/sources.md).
 
-## Understand a small loop in ten minutes
+## Run two small examples
 
 Requires Python 3.10+. These commands do not use the network, send messages, or operate stores.
 
@@ -78,13 +76,11 @@ The first example normalizes product records and detects duplicate records. The 
 
 The [n8n JSON](ai-ecommerce-news-workflow.json) uses manual execution and synthetic news to deduplicate items and prepare a review draft. **JSON, graph structure, and code logic have been checked; live n8n import has not.** Read the [configuration notes](examples/README.md#n8n) before adding RSS, models, or delivery channels.
 
-## Principles
+## Using the examples
 
-- **Facts before expression.** Ground product claims, prices, and policies.
-- **Feedback before scale.** Observe a real result before increasing volume.
-- **Rules constrain models.** Enforce arithmetic, permissions, and money boundaries deterministically.
-- **Keep uncertainty visible.** Fluent text does not replace evidence.
-- **Human involvement is architecture.** Preserve review, exception handling, and stopping.
+Try one product or routine task first, recording time, errors, and editing effort. Use code for arithmetic and models for writing and classification. Keep appropriate checks for product specifications, publishing, and refunds.
+
+The repository contains both examples and unimplemented designs, labeled separately. After connecting an API, check the actual outcome: whether the product changed correctly, the message was sent, and a failed task can be recovered.
 
 ## Contribute and maintain
 

@@ -1,4 +1,4 @@
-# 接入配方 · Integration Recipes
+# API 接入说明 · API Integration Notes
 
 [中文入口](../README.md) · [English home](../README.en.md) · [证据 / Evidence](sources.md)
 
@@ -88,7 +88,7 @@ Read each POST schema, scope, billing rule, and response contract before impleme
 
 具体重试次数和超时由服务规则与任务预算决定。/ Choose limits from service requirements and task budgets.
 
-## 从查询到工作流 / From query to workflow
+## 查询之后怎么处理 / Processing the response
 
 ```text
 授权只读查询 / Authorized read

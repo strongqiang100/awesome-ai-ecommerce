@@ -2,9 +2,9 @@
 
 [中文入口](../README.md) · [English home](../README.en.md)
 
-核验日期 / Reviewed: **2026-09-23**。访问日期不是页面发布日期。官方页面确认产品定位与接口说明，不证明商业效果。正文中的系统组合、评估方法与场景配方属于参考设计。
+核验日期 / Reviewed: **2026-09-23**。访问日期不是页面发布日期。官方页面确认产品定位与接口说明，不证明商业效果。正文中的工具组合和场景方案仍需要按实际业务测试。
 
-The review date is not a publication date. Official pages establish documented roles and interfaces, not commercial effectiveness. Architectures, evaluation methods, and recipes in the handbook are reference designs.
+The review date is not a publication date. Official pages establish documented roles and interfaces, not commercial effectiveness. Tool combinations and workflow proposals still need testing against the intended business process.
 
 ## 证据登记 / Evidence register
 
