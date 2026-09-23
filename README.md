@@ -1,111 +1,93 @@
 <div align="center">
 
-# 🔧 AI Ecommerce Automation Toolkit
+# Awesome AI Ecommerce
 
-**Practical notes and workflow templates for cross-border ecommerce AI automation: n8n workflows, OpenClaw configuration, and product-research data processing.**
+### 电商 AI 自动化：从一个动作，到一套系统
 
-[Documentation](#-learning-resources) | [Contribute](CONTRIBUTING.md) | [Report an issue](issues)
+**让工具有位置，让事实有来源，让每一次执行都有回声。**
 
----
+简体中文 · [English](README.en.md)
+
+[阅读万字指南](docs/zh-CN/handbook.md) · [查找工具](docs/tools.md) · [接入 API](docs/integrations.md) · [运行示例](examples/README.md)
 
 </div>
 
-## 📖 Table of Contents
-
-- [🤖 Core Automation Tools](#-core-automation-tools)
-- [⚡️ Workflow Templates](#️-workflow-templates)
-- [🦞 OpenClaw Configuration](#-openclaw-configuration)
-- [🧠 Recommended AI Models and Agents](#-recommended-ai-models-and-agents)
-- [📚 Learning Resources](#-learning-resources)
-- [💬 Discussion and Feedback](#-discussion-and-feedback)
-
 ---
 
-## 🤖 Core Automation Tools
+面向跨境卖家、独立站、品牌团队和开发者的双语知识入口。覆盖选品、商品事实、Listing、图片与视频、达人、广告、客服、库存、履约和经营分析；同时解释数据契约、Agent、可靠性、评估与尚未验证的边界。
 
-> These tools have been tested in practical business scenarios for cross-border ecommerce data processing and workflow automation.
+> 自动化的价值，在于把重复交给系统，把判断留给证据。
 
-| Tool | Category | Description | Link |
-| :--- | :--- | :--- | :--- |
-| **n8n** | Workflow automation | An open-source workflow engine with self-hosting support and a broad node ecosystem. | [Website](https://n8n.io/) |
-| **OpenClaw** | Crawling agent | An AI agent framework for collecting ecommerce data and assets. | [GitHub](https://github.com/openclaw) |
-| **Firecrawl** | Web parsing | Converts web pages into structured Markdown for LLM workflows. | [Website](https://firecrawl.dev/) |
-| **Brave Search** | Search API | Low-latency web search suitable for agent integrations. | [Website](https://brave.com/search/api/) |
+## 从这里开始
 
----
+| 你想解决的问题 | 阅读入口 | 可以获得什么 |
+|---|---|---|
+| 从零理解电商自动化 | [系统指南 01–03](docs/zh-CN/handbook.md#c01) | 任务选择、架构与数据契约 |
+| 研究商品与市场 | [研究与供应链 04–06](docs/zh-CN/handbook.md#c04) | 选品、评论、成本与事实库 |
+| 制作商品页和内容 | [内容生产 07–09](docs/zh-CN/handbook.md#c07) | 本地化、视觉一致性、短视频 |
+| 连接达人与广告 | [获客实验 10–11](docs/zh-CN/handbook.md#c10) | 合作管理、诊断和实验方法 |
+| 改善客服与履约 | [经营闭环 12–14](docs/zh-CN/handbook.md#c12) | 检索、订单、库存和复购 |
+| 开发可靠的系统 | [工程实施 15–18](docs/zh-CN/handbook.md#c15) | API、Agent、评估与成本 |
+| 寻找类似方案 | [24 个场景配方](docs/zh-CN/handbook.md#c20) | 输入、工具组合和验收条件 |
+| 探索还没有答案的方向 | [边界与研究路径](docs/zh-CN/handbook.md#c19) | 假设、验证方法和停止条件 |
 
-## ⚡️ Workflow Templates
+## 仓库地图
 
-> These n8n JSON templates have been validated in practical scenarios and can be imported directly.
-> Each template includes dependency notes; adjust its configuration for your own environment.
+```text
+.
+├── README.md / README.en.md      双语入口
+├── docs/
+│   ├── zh-CN/handbook.md         中文系统长文
+│   ├── en/handbook.md            对应英文版
+│   ├── tools.md                 双语工具选型目录
+│   ├── integrations.md          平台与出海匠接入配方
+│   └── sources.md               来源、证据等级与验证日期
+├── examples/                    合成数据与离线可运行示例
+├── ai-ecommerce-news-workflow.json  n8n 手动演示模板
+├── tests/                       边界测试
+├── scripts/check_repo.py         链接、结构和公开内容检查
+├── CONTRIBUTING.md              双语贡献规范
+├── SECURITY.md                  数据与安全规则
+└── .github/                     自动检查与议题模板
+```
 
-### 1. Cross-Border Industry News Aggregator
+## 先理解证据等级
 
-- **Use case:** Collects news from multiple industry sources, summarizes it with AI, and sends it to a team collaboration tool.
-- **Sources:** 36Kr, Huxiu, and relevant Reddit communities; easily extended with additional sources.
-- **Processing:** HTTP Request → DeepSeek/OpenAI summary → Feishu or WeCom delivery.
-- **Required nodes:** `HTTP Request`, `OpenAI (DeepSeek-compatible)`, and `Feishu/WeCom`.
-- **Template:** [Download the JSON workflow](https://github.com/strongqiang100/awesome-ai-ecommerce/blob/main/ai-ecommerce-news-workflow.json)
+| 标记 | 含义 |
+|---|---|
+| **LIVE** | 在写明的日期与范围内完成真实接口查询；不代表全面验证 |
+| **DOC** | 官方文档确认能力存在；未完成端到端实测 |
+| **DEMO** | 合成数据的离线示例；不连接生产店铺 |
+| **DESIGN** | 有明确输入、步骤与验收标准的参考设计 |
+| **RESEARCH** | 尚未验证的假设，仅给出推理和实现思路 |
 
----
+工具目录的收录不代表付费推荐，也不代表所有工具都经过本仓库实测。价格、配额、模型版本、地区权限与许可证以官方当前说明为准。[查看来源与验证范围](docs/sources.md)。
 
-### 2. Competitor Price Monitoring
+## 十分钟理解一个最小闭环
 
-- **Use case:** Periodically monitors price changes for selected ASINs or keywords and triggers alerts.
-- **Status:** 🚧 In active development.
+需要 Python 3.10+；以下命令不联网、不发送消息、不操作店铺。
 
----
+```bash
+python3 examples/research_pipeline.py
+python3 examples/unit_economics.py
+python3 -m unittest discover -s tests -v
+python3 scripts/check_repo.py
+```
 
-## 🦞 OpenClaw Configuration
+第一个示例完成商品记录的字段规范化与重复记录检查；第二个示例计算合成订单的贡献利润。它们演示可校验的基础步骤，接入模型与平台的方法见[示例说明](examples/README.md)。
 
-> Notes on local deployment issues and solutions to reduce repeated setup work.
+[n8n JSON](ai-ecommerce-news-workflow.json) 为手动触发、合成新闻输入、去重并生成待审简报的最小模板。**已做 JSON、连线与代码逻辑检查，尚未在 n8n 实例中导入验证。**接入 RSS、模型和发送渠道前，请阅读[配置说明](examples/README.md#n8n)。
 
-### Deployment references
+## 设计原则
 
-- Add your internal deployment-guide URL here.
-- `docker-compose` is recommended for environment isolation and version management.
+- **事实先于表达。** 商品声明、价格与政策必须有依据。
+- **闭环先于规模。** 先观察一次执行的真实结果，再扩展数量。
+- **规则约束模型。** 计算、权限与资金边界由确定性机制执行。
+- **未知保持可见。** 不用流畅叙述填补缺失证据。
+- **人的介入也是设计。** 保留审核、异常接手和停止机制。
 
-### Common errors
+## 参与与维护
 
-| Error | Cause | Resolution |
-| :--- | :--- | :--- |
-| `Error 403` | Anti-bot protection on the target site | Configure a residential proxy or fingerprint browser. |
-| `Ollama connection failed` | Docker network isolation | Set the host to `host.docker.internal`. |
+欢迎补充可复现的场景、工具适用边界、来源与失败案例。请先阅读[贡献规范](CONTRIBUTING.md)与[安全规则](SECURITY.md)。中文与英文主指南保持章节对应；工具、接入和维护文档采用双语呈现。
 
----
-
-## 🧠 Recommended AI Models and Agents
-
-> Continuously updated from practical comparisons across task types.
-
-| Model / Tool | Suitable for | Notes |
-| :--- | :--- | :--- |
-| **DeepSeek-V3** | Text summarization and content generation | Strong value for money and Chinese-language understanding. |
-| **Claude 3.5 Sonnet** | Long-document processing and complex reasoning | Large context window. |
-| **Midjourney / Flux** | Ecommerce hero-image generation | Use with a prompt template. |
-
----
-
-## 📚 Learning Resources
-
-- [n8n documentation](https://docs.n8n.io/)
-- [OpenClaw Wiki](https://github.com/openclaw/wiki)
-- [Firecrawl API documentation](https://docs.firecrawl.dev/)
-- [Brave Search API documentation](https://api.search.brave.com/app/documentation)
-
----
-
-## 💬 Discussion and Feedback
-
-If you encounter an issue or have an improvement suggestion:
-
-- Open a [GitHub Issue](issues) with the relevant details.
-- Use the issue to request a focused follow-up discussion when needed.
-
-> This repository is for technical discussion of the tools. It does not promote courses or commercial services.
-
----
-
-<div align="center">
-  <sub>Maintained by <a href="https://github.com/strongqiang100">strongqiang100</a> · Focused on practical AI automation for ecommerce.</sub>
-</div>
+本版本资料核验日期：**2026-09-23**。已有代码与文档沿用仓库 [MIT 许可证](LICENSE)；第三方工具、模型、数据和素材保留各自条款。
